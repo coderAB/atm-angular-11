@@ -1,0 +1,54 @@
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <img src="https://www.energi.world/wp-content/uploads/2021/02/energi-swap-logo2x.png" width="100%">
+    </div>
+
+    <form class="m-2" [formGroup]="userCardForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mt-2">
+            <label for="exampleInputEmail1">Card Number</label>
+            <input type="number" formControlName="cardNumber" class="form-control" placeholder="Card Number" [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors }" />
+
+            <div *ngIf="submitted && f.cardNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.cardNumber.errors.required">Card Number is required</div>
+            </div>
+        </div>
+
+        <div class="form-group mt-4">
+            <label for="exampleInputEmail1">Card Holder Name</label>
+            <input type="text" formControlName="cardHolderName" class="form-control" placeholder="Card Holder Name" [ngClass]="{ 'is-invalid': submitted && f.cardHolderName.errors }" />
+
+            <div *ngIf="submitted && f.cardHolderName.errors" class="invalid-feedback">
+                <div *ngIf="f.cardHolderName.errors.required">Card Holder Name is required</div>
+            </div>
+        </div>
+
+        <label class="mt-4">Card Type</label>
+        <div class="form-group" *ngIf="submitted && f.cardType.errors" class="invalid-feedback">
+            <div *ngIf="f.cardType.errors.required">Select Card Type</div>
+        </div>
+        <div class=" form-group cc-selector text-center mt-2">
+            <input id="visa" type="radio" value="visa" class="m-2" formControlName="cardType" />
+            <label class="drinkcard-cc visa" for="visa"></label>
+
+            <input id="mastercard" type="radio" value="mastercard" class="m-2" formControlName="cardType" />
+            <label class="drinkcard-cc mastercard" for="mastercard"></label>
+        </div>
+        <div *ngIf="submitted && f.cardType.errors" class="text-danger mb-4">
+            <div *ngIf="f.cardType.errors.required">Select Card Type</div>
+        </div>
+        <button type="submit" class="btn btn-primary mb-4">+ Add Card</button>
+    </form>
+
+    <p class="sidebar-heading" *ngIf="this.globalService.cardData">Card Details</p>
+
+    <ul class="list-unstyled components" *ngIf="this.globalService.cardData">
+        <li *ngFor="let card of this.globalService.cardData">
+            <a href="#">{{card.cardHolderName}} <span class="delete-icon">X</span></a>
+        </li>
+    </ul>
+
+    <div class="text-center">
+        <P *ngIf="!this.globalService.cardData">NO CARD DETAILS FOUND</P>
+    </div>
+
+</nav>
